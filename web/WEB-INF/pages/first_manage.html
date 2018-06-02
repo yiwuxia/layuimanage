@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>投诉审核</title>
+    <link href="${base}/layui/css/base.css" rel="stylesheet" type="text/css"/>
+    <link href="${base}/layui/css/layui.css" rel="stylesheet" type="text/css"/>
+    <style type="text/css">
+        /*.layui-table-cell { min-height: 28px; height: auto; }*/
+        .layui-table img {
+            width: 28px;
+            height: 28px;
+        }
+    </style>
+    <script type="text/javascript" src="${base}/layui/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="${base}/layui/layui.all.js"></script>
+    <script type="text/javascript" src="${base}/layui/common.js"></script>
+</head>
+<body>
+<div class="back_inner">
+   <!-- <button onclick="addUser()"	class="layui-btn layui-btn-radius">新建账户</button>-->
+    <table id="complaint" lay-filter="complaint"></table>
+    <script type="text/html" id="barDemo">
+        <a class="layui-btn layui-btn-primary layui-btn-mini" lay-event="detail">设置</a>
+    </script>
+   <!-- <a href="javascript:;" class="layui-btn" id="complaint_add">添加投诉</a>-->
+</div>
+
+
+
+<script type="text/html" id="titleTpl">
+
+    {{#  if(d.id >1){ }}
+    <img src="${base}{{d.roomUrl}}"+ alt="暂无图"/>
+    {{#  } else { }}
+    <span>/</span>
+    {{#  } }}
+
+</script>
+
+<script>
+
+
+/*
+    var tpl = {
+        operate: function (data) {
+         //  console.log(data);
+         var html = '';
+         html="<button >查看</button>&nbsp;&nbsp;<button onclick='deleteById(data.id)'>删除</button>";
+         return html;
+         }
+    };*/
+
+
+
+
+
+
+
+    layui.use(['layer', 'element', 'table'], function () {
+        var table = layui.table;
+
+        table.render({
+            elem: '#complaint'
+            , url: '/index/queryRoomList' //数据接口
+            , page: false //开启分页
+            , cols: [[ //表头
+                {field: 'id', title: '位置', width: '100'}
+                , {field: 'linkAddr', title: '链接地址', width: '300'}
+                , {field: 'roomName', title: '房间名称', width: '150'}//passWd
+                , {field: 'roomUrl', title: '房间图片', width: '100',templet: '#titleTpl'}
+                , {field: 'initValue', title: '初始人气', width: '100'}
+               // , {field: 'title', title: '标题', width: '100'}
+                ,{field:'right', title: '操作', width:200,toolbar:"#barDemo"}
+            ]]
+        });
+
+
+
+        // 监听工具条
+        table.on('tool(complaint)', function (obj) {
+            var layEvent = obj.event; //获得 lay-event 对应的值
+            var o=obj.data;
+            if(layEvent === 'detail'){
+                //去修改页面
+                window.location.href = "/index/updateRoomInfo?id=" + o.id+'&addr='+ o.linkAddr+'&name='+ o.roomName+'&value='+ o.initValue+'&type='+ o.indexType+'&roomUrl='+ o.roomUrl; //详情页面
+              //  updatePassWord(obj.data);
+            }
+
+
+        });
+        /*
+         layer.closeAll(); //关闭所有层
+         layer.closeAll(‘dialog’); //关闭信息框
+         layer.closeAll(‘page’); //关闭所有页面层
+         layer.closeAll(‘iframe’); //关闭所有的iframe层
+         layer.closeAll(‘loading’); //关闭加载层
+         layer.closeAll(‘tips’); //关闭所有的tips层*/
+
+    //修改密码
+        function updatePassWord(data)  {
+        console.log(data);
+           var index= layer.open({
+                content: '<div class="layui-form-item">' +
+                 ' <label class="layui-form-label">链接地址:</label><span>'+data.userName+'</span>'+
+                '</div>' +
+                '<div class="layui-form-item">' +
+                ' <label class="layui-form-label">密码:</label>' +
+                '    <div class="layui-input-block">'+
+                    ' <input type="text" name="title" id="passwd" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">'+
+                 '</div>'+
+                '</div>'
+                ,btn: ['确定', '取消',]
+                ,btn1: function(index, layero){
+                  /* alert(data.id);
+                   alert($('#passwd').val());*/
+                   updateNewPasswd(data.id,$('#passwd').val());
+                   layer.close(index);
+                }
+                ,btn2: function(index, layero){
+                    //按钮【按钮二】的回调
+                    //return false 开启该代码可禁止点击该按钮关闭
+                },
+               area:'400px'
+
+
+            });
+
+
+        }
+
+        function reloadTableData(){
+            table.render({
+                elem: '#complaint'
+                , url: '/index/listUsers' //数据接口
+                , page: true //开启分页
+                , cols: [[ //表头
+                    {field: 'id', title: '用户id', width: '100'}
+                    , {field: 'userName', title: '用户名', width: '100'}
+                    , {field: 'passWd', title: '密码', width: '100'}//passWd
+                    , {field: 'createTime', title: '创建时间', width: '200'}//passWd
+                    // , {field: 'title', title: '标题', width: '100'}
+                    ,{field:'right', title: '操作', width:200,toolbar:"#barDemo"}
+                    /* , {field: 'content', title: '申诉内容', width: '100'}
+                     , {field: 'comment', title: '初审备注', width: '100'}
+                     , {field: 'addresses', title: '申诉附件', width: '100', templet: tpl.addresses}
+                     , {field: 'createTime', title: '提交时间', width: '160', templet: tpl.formatCreateTime}
+                     , {field: 'updateTime', title: '最后处理时间', width: '160', templet: tpl.formatUpdateTime}
+                     , {field: 'state', title: '状态', width: '100', templet: '#stateTpl'}
+                     , {fixed: 'right', toolbar: '#barScript', title: '操作', width: '250'}*/
+                ]]
+            });
+        }
+
+        //修改密码
+        function updateNewPasswd(id,newPasswd){
+            $.ajax({
+                type: 'post',
+                url: '/index/updateUserPasswd',
+                // contentType: 'application/json',
+                data: {
+                    id: id,
+                    newPasswd: newPasswd
+                }
+            }).then(function (result) {
+                if(result.code=='0'){
+                    //重新刷新表格数据--start
+                    reloadTableData();
+                    //重新刷新表格数据--end
+                    layer.msg('修改成功');
+                }
+            }, function () {
+                layer.msg('操作失败', {icon: 5});
+            })
+        }
+        //删除记录
+        function deleteRecord(id){
+            $.ajax({
+                type: 'post',
+                url: '/index/deleteRecord',
+               // contentType: 'application/json',
+                data: {
+                    id: id,
+                    table: 't_user'
+                }
+              }).then(function (result) {
+                    if(result.code=='0'){
+                        //重新刷新表格数据--start
+                        reloadTableData();
+                        //重新刷新表格数据--end
+                        layer.msg('删除成功');
+                    }
+            }, function () {
+                layer.msg('操作失败', {icon: 5});
+            })
+        }
+    })
+</script>
+</body>
+</html>

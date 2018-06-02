@@ -1,0 +1,10 @@
+
+.w-e-text-container,.view-cotent-specific{font-size:16px;line-height: 1.8;color: rgba(0,0,0,0.8);font-family: "PingFang SC","Hiragino Sans GB","Microsoft YaHei",STHeiti,"WenQuanYi Micro Hei",Helvetica,Arial,sans-serif;text-rendering: optimizeLegibility;-webkit-font-smoothing: antialiased;-moz-osx-font-smoothing: grayscale;-moz-font-feature-settings: "liga" on;}
+.w-e-text-container p,.view-cotent-specific p{margin-bottom: 15px;color: #666;}
+.w-e-text-container h2,.view-cotent-specific h2{border-left: 4px solid;padding-left: 8px;line-height: 1.2;font-size: 20px;margin-top: 20px;margin-bottom: 10px;}
+.w-e-text-container h3,.view-cotent-specific h3{font-size: 18px;font-weight: 600;margin-top: 30px;margin-bottom: 10px;line-height: 1.6;padding-bottom: 5px;border-bottom: 1px solid #e9e9e9;}
+.w-e-text blockquote,.view-cotent-specific blockquote{background-color: #fafafa;border: 1px solid #eee;border-left-width: 8px;padding: 10px 20px;color: #333;margin-bottom: 20px;}
+.w-e-text-container ol li,.view-cotent-specific ol li{list-style:decimal inside !important;}
+.w-e-text-container ul li,.view-cotent-specific ul li{list-style: disc inside !important;}
+.w-e-text img,.view-cotent-specific img{clear: both;display: block;margin: 7px auto;}
+.view-cotent-specific img{max-width: 100%;height: auto !important;}

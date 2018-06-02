@@ -1,0 +1,59 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/util
+		http://www.springframework.org/schema/util/spring-util.xsd">
+
+
+	<context:component-scan base-package="com.jin.controller" />
+	<context:component-scan base-package="com.jin.dao" />
+	<context:component-scan base-package="com.jin.core" />
+
+
+	<mvc:annotation-driven />
+
+	<!--上传文件配置 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	</bean>
+
+	<!-- 视图解析器，JSP -->
+	<bean id="viewResolver"
+		  class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="viewClass" value="com.jin.core.MyFreeMarkerView" />
+		<property name="contentType" value="text/html; charset=utf-8" />
+		<property name="suffix" value=".html" />
+		<property name="exposeRequestAttributes" value="true" />
+		<property name="requestContextAttribute" value="request" />
+	</bean>
+	<bean id="freeMarkerConfig"
+		  class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<!-- 模板根目录 -->
+		<property name="templateLoaderPaths" value="/WEB-INF/pages/" />
+		<!-- 编码格式 -->
+		<property name="defaultEncoding" value="utf-8" />
+	</bean>
+
+	<!-- 拦截器 -->
+	<mvc:interceptors>
+		<!-- 多个拦截器，顺序执行 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/index/*"/>
+			<bean class="com.jin.core.LoginInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+</beans>

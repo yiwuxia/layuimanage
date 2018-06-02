@@ -1,0 +1,54 @@
+@charset "utf-8";
+/*reset*/
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, form, input, button, textarea, p, th, td { margin:0; padding:0; }
+table, td { border-collapse:collapse; border:0; }
+a img, img { border:0; }
+li { list-style:none; }
+h1, h2, h3, h4, h5, h6 { font-size:100%; font-weight:normal;}
+input { border:0; font-size:100%; }
+button, input, select, textarea { font:13px/1.5 "微软雅黑"; vertical-align:middle; }
+/* end reset */
+/* ==float clear && grid == */
+.fix { clear:both; zoom:1; }
+.fix:after { display:block; clear:both; height:0; overflow:hidden; visibility:hidden; content:"."; }
+/*common*/
+body { font:12px/1.5 "微软雅黑"; color:#717171;}
+a { color:#66717c; text-decoration:none; }
+a:hover { text-decoration:underline; color:#36b9fd; }
+.arial { font-family:Arial, Helvetica, sans-serif;}
+.red { color:red;}
+.fl { float:left;}
+.fr { float:right;}
+em,i{ font-style: normal; }
+.layui-input.disabled { background: #ccc; }
+.layui-layout-admin .layui-body { bottom: 0!important; }
+.font12 { font-size: 12px; margin-right: 5px; }
+/**/
+.back_inner { padding: 20px; }
+.enterprise_info { padding: 10px 20px; }
+.enterprise_info .title {height: 45px; line-height: 45px; margin-bottom: 15px; padding: 0 20px; font-size: 16px; color: #2d2d2d; background: #eee; }
+.usercenterpd { padding: 10px 0; background: #f5f5f5; }
+.enterprise_info .cont { position: relative; padding: 20px; background: #fff; }
+.usercenter .layui-form-inner { padding-left: 220px; }
+.usercenter .layui-input-block { width: 410px; margin-left: 120px; }
+.usercenter .layui-form-label { width: 100px; padding: 9px 10px; }
+.red { color:red; }
+.usercenter .layui-form-label { color: #333; }
+.usercenter .layui-form-label .red { margin-right: 5px; }
+.usercenter .layui-form .tip { color: #999; margin-left: 10px; }
+.usercenter .layui-form-item .layui-input-inline { width: 200px; }
+.enterprise_info .upload { position: absolute; left: 40px; top: 20px; text-align: center; }
+.enterprise_info .upload label { float: left; color: #333; font-size: 14px; }
+.enterprise_info .upload .upload_img { padding-left: 80px; }
+.enterprise_info .upload .upload_img .img { width: 100px; height: 100px; border:1px solid #ddd; background: #ddd; border-radius: 5px; overflow: hidden; }
+.enterprise_info .upload .upload_img .img img { width: 100px; height: 100px; display: none; }
+.enterprise_info .upload .upload_img a { display: block; width: 100px; height: 30px; line-height: 30px; background: #34376A; color: #fff; font-size: 14px; border-radius: 5px; text-align: center; margin: 5px 0; }
+.gray { color: #999; }
+.enterprise_info .upload .gray { font-size: 12px; }
+.enterprise_info .line { border-top:1px solid #ddd; padding-top: 30px; }
+.enterprise_info .line .upload { top: 30px; }
+.upload_btn { display: inline-block; width: 100px; height: 40px; line-height: 40px; border:1px solid #ddd; font-size: 14px; text-align: center; }
+.user_btn { cursor: pointer; display: inline-block; height: 40px; line-height: 40px; padding: 0 30px; background: #34376A; border-radius: 2px; color: #fff; font-size: 16px; border:0 none; margin-right: 10px; }
+.user_btn_gray{ background: #D8D8D8; color: #2d2d2d; }
+.user_btn:hover { color:#fff; }
+.user_btn_gray:hover {color: #2d2d2d; }

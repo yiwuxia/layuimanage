@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="${base}/layui/css/layui.css"  rel="stylesheet" type="text/css"/>
+    <style>
+        .layui-input{
+            width: 300px;
+        }
+    </style>
+    <script type="text/javascript" src="${base}/layui/layui.js"></script>
+</head>
+<body>
+
+
+
+<button class="layui-btn btn" id="back">
+    <i class="layui-icon"> </i>
+</button>
+<br>
+<!--action="/index/editRoomInfo"-->
+    <label class="layui-form-label">房间位置:</label>
+    <span style="color: red;font-size: large">${id}</span>
+    <input type="hidden" value="${id}" name="id" id="roomId"/>
+    <div class="layui-form-item">
+        <label class="layui-form-label">链接地址</label>
+        <div class="layui-input-block">
+            <input type="text" name="linkAddr"  id="linkAddr" autocomplete="off" class="layui-input" value="${addr}">
+        </div>
+    </div>
+    <div class="layui-form-item" id="roomName_div">
+        <label class="layui-form-label">房间名称</label>
+        <div class="layui-input-block">
+            <input type="text" name="roomName"   id="roomName" autocomplete="off" class="layui-input" value="${name}">
+        </div>
+    </div>
+    <div class="layui-form-item" id="initValue_div">
+        <label class="layui-form-label">初始人气</label>
+        <div class="layui-input-block">
+            <input type="text" name="initValue" id="initValue"  value="${value}"  placeholder="请输入数值" autocomplete="off" class="layui-input"  onkeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode)))">
+        </div>
+
+    </div>
+    <input type="hidden" value="" id="roomUrl" name="roomUrl" />
+    <div class="layui-upload" id="pic_div">
+        <button type="button" class="layui-btn" id="test1">上传图片</button>
+        <div class="layui-upload-list">
+
+            <img class="layui-upload-img"  width="530" height="282"
+                 id="imgPreView"/>
+
+            <p id="demoText"></p>
+        </div>
+
+    </div>
+    <button class="layui-btn layui-btn-normal" style="margin-left: 30px;"  id="tijiao">
+        提交
+    </button>
+
+
+
+</body>
+<script type="text/javascript" src="${base}/layui/jquery-1.11.1.min.js"></script>
+<script>
+    $(function () {
+        var type =${type?js_string};
+        if(type=='0'){
+            $('#roomName_div').hide();
+            $('#pic_div').hide();
+        }
+        if(type=='1'){
+            $('#roomName_div').hide();
+        }
+        var room_img_url='${roomUrl}';
+       // var room_img_url=${roomUrl?js_string};
+
+        if(room_img_url!=null&&room_img_url.length>0){
+            //图片不为空就要展示图片
+            var result=room_img_url;
+            $('#imgPreView').attr('src', result); //图片链接（base64）
+            document.getElementById('roomUrl').value=room_img_url;
+        }
+
+    });
+</script>
+
+<script>
+
+    layui.use('upload', function(){
+        var $ = layui.jquery
+                ,upload = layui.upload;
+
+        var uploadInst = upload.render({
+            elem: '#test1'
+            ,url: '/upload/uploadRoomPic?id='+${id}
+            ,before: function(obj){
+                //预读本地文件示例，不支持ie8
+                obj.preview(function(index, file, result){
+                    $('#imgPreView').attr('src', result); //图片链接（base64）
+                });
+            }
+            ,done: function(res){
+                //如果上传失败
+                if(res.code > 0){
+                    return layer.msg('上传失败');
+                }
+                if(res.code == 0){
+
+                    document.getElementById('roomUrl').value=res.data[0];
+                }
+                //上传成功
+            }
+            ,error: function(){
+                //演示失败状态，并实现重传
+                var demoText = $('#demoText');
+                demoText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-mini demo-reload">重试</a>');
+                demoText.find('.demo-reload').on('click', function(){
+                    uploadInst.upload();
+                });
+            }
+        });
+
+
+    });
+
+    $('#tijiao').click(function(){
+
+        var id=$('#roomId').val();
+        var linkAddr=$('#linkAddr').val();
+        var roomName=$('#roomName').val();
+        var initValue=$('#initValue').val();
+        var roomUrl =$('#roomUrl').val();
+
+        editRoomInfo(id,linkAddr,roomName,initValue,roomUrl)
+    });
+
+    function editRoomInfo(id,linkAddr,roomName,initValue,roomUrl){
+        $.ajax({
+            type: 'post',
+            url: '/index/editRoomInfo',
+            // contentType: 'application/json', id,linkAddr,roomName,initValue
+            data: {
+                id: id,
+                linkAddr: linkAddr,
+                roomName: roomName,
+                initValue: initValue,
+                roomUrl: roomUrl
+            }
+        }).then(function (result) {
+            if(result.code=='0'){
+                //重新刷新表格数据--start
+                //重新刷新表格数据--end
+              //  layer.msg('修改成功');
+                var index= layer.open({
+                    content:'操作成功！',
+                    btn:['确定'],
+                    yes:function(index,layero){
+                        layer.close(index);
+                        window.location.href= "/index/firstPageManage"
+                    }
+                });
+
+            }
+        }, function () {
+            layer.msg('操作失败', {icon: 5});
+        })
+    }
+
+</script>
+
+<script>
+    $(function(){
+        $('#back').click(function(){
+            window.location.href= "/index/firstPageManage"
+        });
+    });
+</script>
+
+</html>

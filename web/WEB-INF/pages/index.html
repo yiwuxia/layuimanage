@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link href="${base}/layui/css/base.css" rel="stylesheet" type="text/css" />
+<link href="${base}/layui/css/layui.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+  .logo { float: left; width: 200px; text-align: center; padding-top: 10px; }
+  .header .user { float: right; margin-right: 10px; color: #fff; line-height: 60px; }
+  .header .user a { color: #fff; margin-left: 10px; }
+  .header .user b { font-weight: normal; }
+</style>
+</head>
+
+<body>
+<div class="layui-layout layui-layout-admin">
+  <div class="layui-header header">
+      <span class="logo"><img src="${base}/layui/images/logo.png" /></span>
+     <span class="user"><b></b>
+     <button class="layui-btn" id="out">退出系统</button>
+     </span>
+  </div>
+  <div class="layui-side layui-bg-black">
+    <div class="layui-side-scroll">
+      <ul class="layui-nav layui-nav-tree site-demo-nav">
+        <li class="layui-nav-item layui-nav-itemed"> <a class="javascript:;" href="javascript:;">文章管理<span class="layui-nav-more"></span></a>
+          <dl class="layui-nav-child">
+            <dd><a href="javascript:;" data-url="/index/publish">文章管理</a> </dd>
+          <!--  <dd><a href="javascript:;" data-url="/trail_positive">正审</a> </dd>
+            <dd><a href="javascript:;" data-url="/trail_last">终审</a> </dd>
+            <dd><a href="javascript:;" data-url="/all">全部</a> </dd>-->
+          </dl>
+        </li>
+          <li class="layui-nav-item layui-nav-itemed"> <a class="javascript:;" href="javascript:;">用户管理<span class="layui-nav-more"></span></a>
+              <dl class="layui-nav-child">
+                  <dd><a href="javascript:;" data-url="/index/userManage">账号管理</a> </dd>
+                  <!--  <dd><a href="javascript:;" data-url="/trail_positive">正审</a> </dd>
+                    <dd><a href="javascript:;" data-url="/trail_last">终审</a> </dd>
+                    <dd><a href="javascript:;" data-url="/all">全部</a> </dd>-->
+              </dl>
+          </li>
+          <li class="layui-nav-item layui-nav-itemed"> <a class="javascript:;" href="javascript:;">首页管理<span class="layui-nav-more"></span></a>
+              <dl class="layui-nav-child">
+                  <dd><a href="javascript:;" data-url="/index/firstPageManage">首页展示管理</a> </dd>
+                  <!--  <dd><a href="javascript:;" data-url="/trail_positive">正审</a> </dd>
+                    <dd><a href="javascript:;" data-url="/trail_last">终审</a> </dd>
+                    <dd><a href="javascript:;" data-url="/all">全部</a> </dd>-->
+              </dl>
+          </li>
+        <span class="layui-nav-bar" style="top: 232.953px; height: 0px; opacity: 0;"></span>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="layui-body">
+      <iframe src="/index/publish" frameborder="0" width="100%" height="100%" scrolling="auto" id="myframe"></iframe>
+  </div>
+
+</div>
+<script type="text/javascript" src="${base}/layui/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="${base}/layui/layui.all.js"></script>
+<script type="text/javascript" src="${base}/layui/common.js"></script>
+<script>
+     var username = JSON.stringify(localStorage.getItem('loginInfo')).username;
+     $('.header .user b').text(username);
+     $('.layui-nav .layui-nav-child dd').click(function(){
+	 
+         $('#myframe').attr('src',$(this).children('a').attr('data-url'))
+     });
+
+     $('#out').click(function(){
+         $.ajax({
+             type: 'post',
+             url:'/login/loginOut'
+         }).then(function (res) {
+             if (res.code == 0) {
+                 location.href = "/"
+             }
+         }, function () {
+             layer.msg('未知错误错误', {icon: 5});
+         });
+     })
+
+
+</script>
+</body>
+</html>
